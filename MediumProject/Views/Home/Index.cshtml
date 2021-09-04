@@ -1,0 +1,60 @@
+﻿
+@model List<StoryVM>
+@{
+    ViewData["Title"] = "Index";
+}
+<partial>
+    @Html.Partial("TopicList")
+</partial>
+
+<div class="container">
+    @if (TempData["Error"] != null)
+    {
+    <div class="container text-center">
+        <h4 style="color: brown">
+            @TempData["Error"]
+        </h4>
+    </div>
+    }
+    @if (TempData["Message"] != null)
+    {
+        <div class="container text-center">
+            <h4 style="color: brown">
+                @TempData["Message"]
+            </h4>
+        </div>
+    }
+    <partial>
+        @Html.Partial("InfoSection")
+    </partial>
+    <div class="container">
+        <div class="row g-5">
+            @foreach (StoryVM item in Model)
+            {
+                <div class="col-lg-4">
+                    <div class="post-entry d-block small-post-entry-v">
+                        <div class="content">
+                            <div class="post-meta mb-1">
+                                <a class="category">@item.ReadTimeInMinutes minute read</a> —
+                                <span class="date">Published at @item.CreatedDate.ToString("d")</span>
+                            </div>
+                            <h2 class="heading mb-3">
+                                <a asp-action="ReadStory" asp-controller="Story" asp-route-id="@item.StoryID">@item.Title</a>
+                            </h2>
+                            <a href="/@item.User.Url" class="post-author d-flex align-items-center">
+                                <div class="author-pic">
+                                    <img class="rounded-circle mt-5" style="width: 50px; height:50px" src="@item.User.PhotoPath" alt="Image">
+                                </div>
+                                <div class="text">
+                                    <strong>@item.User.FullName</strong>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
+        </div>
+    </div>
+</div>
+

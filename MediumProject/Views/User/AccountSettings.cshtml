@@ -1,0 +1,74 @@
+﻿
+@model UserVM
+@{
+    ViewData["Title"] = "AccountSettings";
+}
+
+
+@if (ViewBag.Error != null)
+{
+    <div class="container text-center">
+        <span class="text-danger">@ViewBag.Error</span>
+    </div>
+}
+<div class="container rounded bg-white mt-5">
+    <div class="row">
+        @Html.Partial("AccountSettingsInfo")
+        <div class="col-md-8">
+            <div class="p-3 py-5">
+                <form enctype="multipart/form-data" method="post">
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label type="text">Name : </label>
+                            <input type="text" class="form-control" placeholder="@Model.FullName" asp-for="FullName">
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label type="text">E-mail Address : </label>
+                            <input type="text" class="form-control" placeholder="@Model.EmailAddress" asp-for="EmailAddress">
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label type="text">Username : </label>
+                            <input type="text" class="form-control" placeholder="@Model.UserName" asp-for="UserName">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label type="text">Url : </label>
+                            <input type="text" class="form-control" placeholder="@Model.Url" asp-for="Url">
+                            <span asp-validation-for="Url" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label type="text">About Yourself : </label>
+                            <input type="text" class="form-control" placeholder="@Model.Description" asp-for="Description">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label type="text">Profile Photo : </label>
+                            <input type="file" class="form-control" placeholder="@Model.PhotoFile" asp-for="PhotoFile">
+                            <span asp-validation-for="PhotoFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mt-3 text-center">
+                            <button class="btn btn-primary" type="submit" asp-action="AccountSettings" asp-controller="User" formmethod="post">
+                                Save
+                            </button>
+                            <button class="btn btn-danger" type="button" asp-action="Deactivate" asp-controller="User">Deactivate</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<StoryVM>
+
+@{
+    ViewData["Title"] = "MyStories";
+}
+
+<div class="container">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Read Time In Minutes</th>
+                <th>Published Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                        <a asp-action="ReadStory" asp-controller="Story" asp-route-id="@item.StoryID"><span>@item.Title</span></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReadTimeInMinutes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        <a asp-action="WriteOrUpdate" asp-controller="Story" asp-route-id="@item.StoryID" type="button" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-controller="Story" asp-route-id="@item.StoryID" type="button" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

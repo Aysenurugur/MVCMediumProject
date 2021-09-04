@@ -1,0 +1,28 @@
+﻿
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<StoryVM>
+
+<div class="container">
+    <h2>@ViewBag.TopicName</h2>
+    @foreach (StoryVM item in Model)
+    {
+        <div class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col">
+                    <a asp-action="ReadStory" asp-controller="Story" asp-route-id="@item.StoryID">
+                        <strong class="mb-0" style="text-decoration:none">@item.Title</strong>
+                    </a>
+                    <p class="text-muted mb-0">Published at @item.CreatedDate.ToString("d")</p>
+                    <p class="text-muted mb-0">@item.ReadTimeInMinutes minute read</p>
+                </div>
+                <div class="col-auto">
+                    <a href="/@item.User.Url">
+                        <img src="@item.User.PhotoPath" style="width:30px; height:30px" />
+                        <p>@item.User.FullName</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <br />
+    }
+</div>

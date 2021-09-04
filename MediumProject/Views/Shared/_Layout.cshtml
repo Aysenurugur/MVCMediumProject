@@ -1,0 +1,173 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/jquery/jquery.js"></script>
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #BA68C8
+        }
+
+        .profile-button {
+            background: #BA68C8;
+            box-shadow: none;
+            border: none
+        }
+
+            .profile-button:hover {
+                background: #682773
+            }
+
+            .profile-button:focus {
+                background: #682773;
+                box-shadow: none
+            }
+
+            .profile-button:active {
+                background: #682773;
+                box-shadow: none
+            }
+
+        .back:hover {
+            color: #682773;
+            cursor: pointer
+        }
+
+        /************************************************/
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 90%;
+        }
+
+        .user_card {
+            height: 250px;
+            width: 350px;
+            margin-top: auto;
+            margin-bottom: auto;
+            background: #ffebcd;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
+
+        .brand_logo_container {
+            position: absolute;
+            height: 170px;
+            width: 170px;
+            top: -75px;
+            border-radius: 50%;
+            background: #60a3bc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .brand_logo {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .form_container {
+            margin-top: 100px;
+        }
+
+        .login_btn {
+            width: 100%;
+            background: #60a3bc !important;
+            color: white !important;
+        }
+
+            .login_btn:focus {
+                box-shadow: none !important;
+                outline: 0px !important;
+            }
+
+        .login_container {
+            padding: 0 2rem;
+        }
+
+        .input-group-text {
+            background: #60a3bc !important;
+            color: white !important;
+            border: 0 !important;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+        }
+
+        .input_user,
+        .input_pass:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color:transparent">
+            <a class="blog-header-logo text-dark" asp-action="Index" asp-controller="Home"><img style="width: 160px; height: 50px" src="~/Images/medium_logo.png" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse text-end" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    @if (httpContextAccessor.HttpContext.Session.GetInt32("Login") == null)
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="Information" asp-controller="Home">Learn More About Us <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="Login" asp-controller="User">Login<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="SignUp" asp-controller="User">Sign Up <span class="sr-only">(current)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        string url = httpContextAccessor.HttpContext.Session.GetString("Url");
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="Information" asp-controller="Home">Learn More About Us <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @httpContextAccessor.HttpContext.Session.GetString("UserName")
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Topic" asp-action="SelectTopics">Follow Topics</a>
+                                <a class="dropdown-item" asp-controller="Story" asp-action="WriteOrUpdate">Write A Story</a>
+                                <a class="dropdown-item" asp-controller="User" asp-action="MyStories">My Stories</a>
+                                <a class="dropdown-item" href="@url">Account</a>
+                                <a class="dropdown-item" asp-controller="User" asp-action="AccountSettings">Settings</a>
+                                <a class="dropdown-item" asp-controller="User" asp-action="LogOut">Log Out</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>        
+    </div>
+    <div class="container">
+        <hr />
+    </div>
+    @RenderBody()
+    <div class="container text-center"><p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p></div>
+</body>
+</html>

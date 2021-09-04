@@ -1,0 +1,94 @@
+﻿@model StoryWithTopics
+
+@{
+    ViewData["Title"] = "WriteOrUpdate";
+}
+
+<style>
+    textarea, input {
+        border: none;
+        overflow: auto;
+        outline: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+</style>
+<div class="container">
+    <div class="container-fluid" style="font-family:'Times New Roman'; height:100vh;">
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="list-group" id="topics">
+                    @foreach (TopicVM item in ViewBag.Topics)
+                    {
+                        <li class="list-group-item border-0 border-bottom">
+                            <input id="@item.TopicID" name="chkTopic" class="form-check-input me-1 chkbtn" type="checkbox" value="false">
+                            <span id="topicName-@item.TopicID">@item.Title</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6">
+                @if (ViewBag.Story == null)
+                {
+
+                    <div class="row my-3">
+                        <input id="title" class="fs-3 border-0 border-bottom" placeholder="Title" />
+                    </div>
+                    <div class="row my-3">
+                        <textarea rows="30" id="description" class="border-0" placeholder="Your Story"></textarea>
+                    </div>
+                    <div class="row d-flex justify-content-end mt-2">
+                        <div class="col-1 text-end">
+                            <button id="btnPublish" class="btn btn-success rounded-pill">Publish</button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row my-3">
+                        <input id="title" class="fs-3 border-0 border-bottom" placeholder="@ViewBag.Story.Title" />                        
+                    </div>
+                    <div class="row my-3">
+                        <textarea rows="30" id="description" class="border-0" placeholder="Your Story">
+                            @ViewBag.Story.Description
+                        </textarea>
+                    </div>
+                    <div class="row d-flex justify-content-end mt-2">
+                        <div class="col-1 text-end">
+                            <button id="btnPublish" class="btn btn-success rounded-pill">Publish</button>
+                        </div>
+                    </div>
+                    <span id="storyId"style="color: white">@ViewBag.Story.StoryID</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let topics = [];
+
+    $("#btnPublish").click(function () {
+        topics = $.map($('input[name="chkTopic"]:checked'), function (c) { return c.id; });
+        var id = $("#storyId").html();
+        var story = {
+            "storyId": id,
+            "title": $("#title").val(),
+            "description": $("#description").val()
+        };
+        var storyWithTopics = {
+            "story": story,
+            "topics": topics
+        }
+        console.log(storyWithTopics);
+        $.ajax({
+            url: "/Story/GetStory/",
+            type: "POST",
+            data: storyWithTopics,
+            success: function () {
+                window.location.href = "/User/MyStories";
+            }
+        })
+    })
+</script>

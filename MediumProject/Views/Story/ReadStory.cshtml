@@ -1,0 +1,31 @@
+﻿@model StoryVM
+
+@{
+    ViewData["Title"] = "ReadStory";
+}
+<div class="container">
+    <div class="main col-md-8">
+        <div class="s_header_wraper">
+            <div class="s-post-header container">
+                <h1 itemprop="headline">@Model.Title</h1>
+                <div class="meta">
+                    <div class="post-category">
+                        @foreach (TopicVM item in ViewBag.StoryTopics)
+                        {
+                            <a asp-controller="Topic" asp-action="Stories" asp-route-id="@item.TopicID">@item.Title</a>
+                        }
+                    </div>
+                    <div class="post-date" itemprop="datePublished">Published Date @Model.CreatedDate.ToString("d")</div>
+                    <div class="post-date" itemprop="datePublished">@Model.ReadTimeInMinutes minute read</div>
+                    <div class="post-author" itemprop="author">
+                        by <a href="/@Model.User.Url">@Model.User.FullName</a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end single header -->
+        <br />
+        <div class="container" itemprop="articleBody">
+            @Model.Description
+        </div>
+    </div>
+</div>

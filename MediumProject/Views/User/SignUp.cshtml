@@ -1,0 +1,44 @@
+﻿
+@model UserVM
+@{
+    ViewData["Title"] = "SignUp";
+}
+
+<!doctype html>
+<html lang="en">
+<body class="text-center">
+    @if (ViewBag.Error != null)
+    {
+        <div class="container text-center">
+            <span class="text-danger">@ViewBag.Error</span>
+        </div>
+    }
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <form class="form" method="post" enctype="multipart/form-data">
+                <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+
+                <label class="sr-only">Email address</label>
+                <input asp-for="EmailAddress" type="email" class="form-control" placeholder="Email address" required=required autofocus=autofocus />
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                <br />
+
+                <label class="sr-only">Profile Photo</label>
+                <input asp-for="PhotoFile" type="file" class="form-control" placeholder="Profile Photo" autofocus=autofocus />
+                <br />
+
+                <label class="sr-only">Tell Us About Yourself</label>
+                <input asp-for="Description" type="text" class="form-control" placeholder="A little bit yourself" autofocus=autofocus />
+                <span asp-validation-for="Description" class="text-danger"></span>
+                <br />
+
+                <input asp-action="SignUp" asp-controller="User" type="submit" value="Create" class="btn btn-primary" formmethod="post" />
+
+                <div class="d-flex justify-content-center links">
+                    Already have an account?<a asp-action="Login" asp-controller="User">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

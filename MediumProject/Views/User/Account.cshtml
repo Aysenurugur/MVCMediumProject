@@ -1,0 +1,89 @@
+﻿
+@model UserWithStories
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    ViewData["Title"] = "Account";
+}
+
+<div class="container">
+    <div class="container">
+        <div class="main-body">
+
+            <nav aria-label="breadcrumb" class="main-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                </ol>
+            </nav>
+
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="@Model.User.PhotoPath" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>@Model.User.FullName</h4>
+                                    <p class="text-secondary mb-1">@Model.User.UserName</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Full Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">@Model.User.FullName</div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">About Writer</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">@Model.User.Description</div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Writer Url</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">@Model.User.Url</div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                @if (Model.User.UserID == httpContextAccessor.HttpContext.Session.GetInt32("Login"))
+                                {
+                                    <div class="col-sm-12">
+                                        <a class="btn btn-info" asp-action="AccountSettings" asp-controller="User">Edit</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gutters-sm">
+                        <h4 class="mb-0">      Publications</h4>
+                        @foreach (StoryVM item in Model.Stories)
+                        {
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <a class="mb-0" asp-action="ReadStory" asp-controller="Story" asp-route-id="@item.StoryID">
+                                            <h4>
+                                                @item.Title
+                                            </h4>
+                                        </a>
+                                        <p>@item.CreatedDate.ToString("d")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
